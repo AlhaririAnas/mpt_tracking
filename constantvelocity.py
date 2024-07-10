@@ -23,7 +23,7 @@ class KalmanFilter():
         # Initialisierung des Zustands mit der ersten Messung
         self.x[:self.measurement_size] = measurement
         self.x[self.measurement_size:] = 0  # Anfangsgeschwindigkeit auf 0 setzen
-        self.P = np.eye(self.state_size) * 1000  # Fehlerkovarianzmatrix zurücksetzen
+        self.P = np.eye(self.state_size) / 10 # Fehlerkovarianzmatrix zurücksetzen
         return self.x[:self.measurement_size]
 
     def update(self, dt, measurement):
@@ -33,7 +33,7 @@ class KalmanFilter():
             self.F[i, i + self.measurement_size] = dt
         self.x = np.dot(self.F, self.x)
         self.P = np.dot(np.dot(self.F, self.P), self.F.T)
-        
+
         # Messung (Measurement)
         z = np.array(measurement[:self.measurement_size])
         
